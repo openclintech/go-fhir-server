@@ -136,6 +136,22 @@ Returns:
 
 ---
 
+### CapabilityStatement (Metadata)
+
+This server exposes a minimal **FHIR CapabilityStatement** describing its supported functionality.
+
+| Operation | Method | Endpoint |
+|---------|-------|----------|
+| CapabilityStatement | GET | `/fhir/metadata` |
+
+Example:
+
+```bash
+curl https://go-fhir-server2-724149596628.us-central1.run.app/fhir/metadata \
+  -H "Accept: application/fhir+json"
+```
+---
+
 ## 🧠 Design Notes
 
 - This is **not a full FHIR server**
@@ -143,13 +159,7 @@ Returns:
 - Validation is intentionally permissive
 - Persistence is **in-memory only**
 - Versioning (`meta.versionId`) exists but is MVP-level
-
-This project prioritizes:
-- clarity
-- testability
-- incremental evolution
-
-over completeness.
+- A minimal but valid `/fhir/metadata` CapabilityStatement is implemented
 
 ---
 
