@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"os"
 	"regexp"
 	"strings"
 	"sync"
@@ -22,8 +23,14 @@ func main() {
 	mux.HandleFunc("/healthz", s.handleHealthz)
 	mux.HandleFunc("/fhir/", s.handleFHIR)
 
-	log.Println("listening on :8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8080"
+	}
+	addr := "0.0.0.0:" + port
+
+	log.Println("listening on " + addr)
+	log.Fatal(http.ListenAndServe(addr, mux))
 }
 
 type server struct {
