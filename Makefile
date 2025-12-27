@@ -1,0 +1,6 @@
+.PHONY: check
+
+check:
+	go fmt ./...
+	go vet ./...
+	go test ./... -race -count=1
