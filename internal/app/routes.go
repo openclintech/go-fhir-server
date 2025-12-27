@@ -13,6 +13,9 @@ func registerRoutes(mux *http.ServeMux, d Deps) {
 	// Health
 	mux.Handle("/ping", handlers.Ping())
 
+	// FHIR Metadata
+	mux.Handle("/fhir/metadata", handlers.Metadata())
+
 	// FHIR Patient
 	patientHandler := handlers.Patient(d.PatientStore)
 	mux.Handle("/fhir/Patient", patientHandler)
