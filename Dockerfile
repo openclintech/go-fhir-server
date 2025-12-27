@@ -1,23 +1,19 @@
-# ---- build stage ----
-FROM golang:1.25-alpine AS build
-WORKDIR /src
+# Build stage
+FROM golang:1.22-alpine AS build
+WORKDIR /app
 
-# cache deps
 COPY go.mod ./
 RUN go mod download
 
-# copy source
-COPY . ./
+COPY . .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o server
 
-# build a static-ish binary
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /out/server ./cmd/server
-
-# ---- run stage ----
-FROM gcr.io/distroless/static-debian12
+# Runtime stage
+FROM gcr.io/distroless/base-debian12
 WORKDIR /
-COPY --from=build /out/server /server
+COPY --from=build /app/server /server
 
-# Cloud Run uses PORT env var
+ENV PORT=8080
 EXPOSE 8080
 
 CMD ["/server"]

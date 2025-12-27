@@ -1,3 +1,3 @@
-module github.com/openclintech/go-fhir-server
+module go-fhir-server
 
-go 1.25.5
+go 1.22
